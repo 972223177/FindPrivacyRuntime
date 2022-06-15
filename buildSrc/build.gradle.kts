@@ -14,6 +14,8 @@ dependencies{
     implementation("org.ow2.asm:asm:9.3")
     implementation("org.ow2.asm:asm-commons:9.3")
     implementation("org.ow2.asm:asm-util:9.3")
+    implementation("com.google.code.gson:gson:2.9.0")
+    implementation("commons-io:commons-io:2.11.0")
 }
 
 gradlePlugin{

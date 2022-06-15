@@ -11,7 +11,7 @@ class FindPrivacyRuntimePlugin:Plugin<Project> {
     override fun apply(target: Project) {
         target.extensions.getByType(AndroidComponentsExtension::class.java).onVariants{
             it.instrumentation.transformClassesWith(FindPrivacyClassVisitorFactory::class.java,InstrumentationScope.ALL){}
-            it.instrumentation.setAsmFramesComputationMode(FramesComputationMode.COPY_FRAMES)
+            it.instrumentation.setAsmFramesComputationMode(FramesComputationMode.COMPUTE_FRAMES_FOR_INSTRUMENTED_METHODS)
         }
     }
 }

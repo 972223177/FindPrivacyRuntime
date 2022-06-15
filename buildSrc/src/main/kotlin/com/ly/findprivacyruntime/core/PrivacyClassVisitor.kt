@@ -7,7 +7,19 @@ import org.objectweb.asm.Opcodes.GETSTATIC
 import org.objectweb.asm.Opcodes.INVOKEVIRTUAL
 
 class PrivacyClassVisitor(cv: ClassVisitor) : ClassVisitor(Opcodes.ASM9, cv) {
+    private var mCurrClassName = ""
 
+    override fun visit(
+        version: Int,
+        access: Int,
+        name: String?,
+        signature: String?,
+        superName: String?,
+        interfaces: Array<out String>?
+    ) {
+        mCurrClassName = name ?: ""
+        super.visit(version, access, name, signature, superName, interfaces)
+    }
 
     override fun visitMethod(
         access: Int,
@@ -26,14 +38,17 @@ class PrivacyClassVisitor(cv: ClassVisitor) : ClassVisitor(Opcodes.ASM9, cv) {
                 descriptor: String?,
                 isInterface: Boolean
             ) {
-                if (PrivacyUtils.contain(owner ?: "", name ?: "")) {
+                val result = PrivacyUtils.check(mCurrClassName, owner ?: "", name ?: "")
+                if (result.first) {
+                    println("insert invoke")
                     mv.visitFieldInsn(
                         GETSTATIC,
                         "com/ly/findprivacyruntime/FindPrivacyUtils",
                         "INSTANCE",
                         "Lcom/ly/findprivacyruntime/FindPrivacyUtils;"
                     )
-                    mv.visitLdcInsn(name ?: "")
+                    val message = (name ?: "") + if (result.second.isNotEmpty()) ":${result.second}" else ""
+                    mv.visitLdcInsn(message)
                     mv.visitMethodInsn(
                         INVOKEVIRTUAL,
                         "com/ly/findprivacyruntime/FindPrivacyUtils",
@@ -42,7 +57,6 @@ class PrivacyClassVisitor(cv: ClassVisitor) : ClassVisitor(Opcodes.ASM9, cv) {
                         false
                     )
                 }
-
                 super.visitMethodInsn(opcode, owner, name, descriptor, isInterface)
             }
         }

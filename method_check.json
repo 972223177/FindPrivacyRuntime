@@ -1,0 +1,36 @@
+{
+  "methods": [
+    {
+      "owner": "android.telephony.TelephonyManager",
+      "method_name": "getImei",
+      "message": "",
+      "excludes": [
+        ""
+      ]
+    },
+    {
+      "owner": "android.telephony.TelephonyManager",
+      "method_name": "getDeviceId",
+      "message": "",
+      "excludes": [
+        ""
+      ]
+    },
+    {
+      "owner": "android.content.pm.PackageManager",
+      "method_name": "getInstalledApplications",
+      "message": "",
+      "excludes": [
+        ""
+      ]
+    },
+    {
+      "owner": "android.content.pm.PackageManager",
+      "method_name": "getInstalledPackages",
+      "message": "不能直接调用这个方法",
+      "excludes": [
+        "com.ly.findprivacyruntime.MainActivity"
+      ]
+    }
+  ]
+}

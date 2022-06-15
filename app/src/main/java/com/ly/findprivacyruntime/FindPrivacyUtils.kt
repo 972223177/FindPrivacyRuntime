@@ -23,10 +23,10 @@ object FindPrivacyUtils {
             val stacktrace = Thread.currentThread().stackTrace.toMutableList()
             val saveUtilsIndex =
                 stacktrace.indexOfFirst { it.className == "com.ly.findprivacyruntime.FindPrivacyUtils" }
-            val newList = stacktrace.subList(saveUtilsIndex + 1,stacktrace.size-1)
+            val newList = stacktrace.subList(saveUtilsIndex + 1,stacktrace.size)
             val sb = StringBuilder()
             sb.append("\n\n---------------------------${mDataFormat.format(Date(System.currentTimeMillis()))}---------------------------\n")
-            var split = "invoke $method \n"
+            var split = "$method \n"
             newList.forEach {
                 sb.append(split)
                 sb.append("\t\t$it")
