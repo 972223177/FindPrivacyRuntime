@@ -6,7 +6,7 @@ import org.objectweb.asm.Opcodes
 import org.objectweb.asm.Opcodes.GETSTATIC
 import org.objectweb.asm.Opcodes.INVOKEVIRTUAL
 
-class PrivacyClassVisitor(cv:ClassVisitor):ClassVisitor(Opcodes.ASM9,cv) {
+class PrivacyClassVisitor(cv: ClassVisitor) : ClassVisitor(Opcodes.ASM9, cv) {
 
 
     override fun visitMethod(
@@ -15,10 +15,10 @@ class PrivacyClassVisitor(cv:ClassVisitor):ClassVisitor(Opcodes.ASM9,cv) {
         descriptor: String?,
         signature: String?,
         exceptions: Array<out String>?
-    ): MethodVisitor{
+    ): MethodVisitor {
         val mv = cv.visitMethod(access, name, descriptor, signature, exceptions)
 
-        return object:MethodVisitor(api,mv){
+        return object : MethodVisitor(api, mv) {
             override fun visitMethodInsn(
                 opcode: Int,
                 owner: String?,
@@ -26,11 +26,21 @@ class PrivacyClassVisitor(cv:ClassVisitor):ClassVisitor(Opcodes.ASM9,cv) {
                 descriptor: String?,
                 isInterface: Boolean
             ) {
-
-                if (PrivacyUtils.contain(owner?:"",name?:"")){
-                    mv.visitFieldInsn(GETSTATIC, "com/ly/findprivacyruntime/SaveUtils", "INSTANCE", "Lcom/ly/findprivacyruntime/SaveUtils;")
-                    mv.visitLdcInsn(name?:"")
-                    mv.visitMethodInsn(INVOKEVIRTUAL, "com/ly/findprivacyruntime/SaveUtils", "insertStacktrace", "(Ljava/lang/String;)V", false)
+                if (PrivacyUtils.contain(owner ?: "", name ?: "")) {
+                    mv.visitFieldInsn(
+                        GETSTATIC,
+                        "com/ly/findprivacyruntime/FindPrivacyUtils",
+                        "INSTANCE",
+                        "Lcom/ly/findprivacyruntime/FindPrivacyUtils;"
+                    )
+                    mv.visitLdcInsn(name ?: "")
+                    mv.visitMethodInsn(
+                        INVOKEVIRTUAL,
+                        "com/ly/findprivacyruntime/FindPrivacyUtils",
+                        "insertStacktrace",
+                        "(Ljava/lang/String;)V",
+                        false
+                    )
                 }
 
                 super.visitMethodInsn(opcode, owner, name, descriptor, isInterface)

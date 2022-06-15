@@ -6,7 +6,7 @@ class FindPrivacyApp :Application(){
 
     override fun onCreate() {
         super.onCreate()
-        SaveUtils.init(this)
+        FindPrivacyUtils.init(this)
     }
 
 

@@ -8,7 +8,7 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-object SaveUtils {
+object FindPrivacyUtils {
 
     private var mApplicationContext: Context? = null
     private val mDataFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
@@ -22,7 +22,7 @@ object SaveUtils {
         try {
             val stacktrace = Thread.currentThread().stackTrace.toMutableList()
             val saveUtilsIndex =
-                stacktrace.indexOfFirst { it.className == "com.ly.findprivacyruntime.SaveUtils" }
+                stacktrace.indexOfFirst { it.className == "com.ly.findprivacyruntime.FindPrivacyUtils" }
             val newList = stacktrace.subList(saveUtilsIndex + 1,stacktrace.size-1)
             val sb = StringBuilder()
             sb.append("\n\n---------------------------${mDataFormat.format(Date(System.currentTimeMillis()))}---------------------------\n")
